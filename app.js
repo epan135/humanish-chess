@@ -101,3 +101,31 @@ function applyTheme(theme){
 }
 picker.querySelectorAll('.theme-option').forEach(button=>button.onclick=()=>applyTheme(button.dataset.theme));
 applyTheme(localStorage.getItem('humanish-theme')||'aurora');
+
+const nav = document.querySelector('.nav');
+const clubNav = document.createElement('button');
+clubNav.innerHTML = '<span>♧</span><span>Club</span>';
+nav?.append(clubNav);
+
+const navTargets = {
+  Play: document.querySelector('.board-card'),
+  'My games': document.querySelector('#moves')?.closest('.card'),
+  Challenges: document.querySelector('.bot-card'),
+  Leaderboard: document.querySelector('.right-col .card'),
+  Club: document.querySelector('.side-bottom')
+};
+
+function activateNav(label, button){
+  nav?.querySelectorAll('button').forEach(item=>item.classList.toggle('active',item===button));
+  const target=navTargets[label];
+  target?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+nav?.querySelectorAll('button').forEach(button=>{
+  const label=button.querySelector('span:last-child')?.textContent.trim()||button.textContent.trim();
+  button.type='button';
+  button.onclick=()=>activateNav(label,button);
+});
+
+const clubIcon=document.querySelector('.icon-btn');
+clubIcon?.addEventListener('click',()=>activateNav('Club',clubNav));
