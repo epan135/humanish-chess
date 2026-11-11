@@ -129,3 +129,6 @@ nav?.querySelectorAll('button').forEach(button=>{
 
 const clubIcon=document.querySelector('.icon-btn');
 clubIcon?.addEventListener('click',()=>activateNav('Club',clubNav));
+
+document.querySelector('.sidebar')?.remove();
+document.querySelector('.app')?.style.setProperty('grid-template-columns','1fr','important');
