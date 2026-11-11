@@ -73,3 +73,31 @@
   $('newBtn').onclick=()=>{reset();toast('New game started')};$('undoBtn').onclick=()=>{if(history.length>=2){const s=history[history.length-2];history.splice(-2);restore(s);toast('Last turn undone')}};$('randomBtn').onclick=()=>selectBot(Math.floor(Math.random()*bots.length));
   const style=document.createElement('style');style.textContent='.piece-art{width:78%;height:78%;filter:drop-shadow(0 3px 1px rgba(41,26,20,.25));}';document.head.appendChild(style);renderBots();reset();
 })();
+
+const guide = document.createElement('section');
+guide.className = 'card';
+guide.innerHTML = '<div class="card-title"><h2>How to play</h2><span>QUICK GUIDE</span></div><div class="instruction-list"><div class="instruction"><b>1</b><span>Choose an opponent from the list.</span></div><div class="instruction"><b>2</b><span>Click one of your white pieces, then click a highlighted square.</span></div><div class="instruction"><b>3</b><span>Your opponent moves automatically.</span></div><div class="instruction"><b>4</b><span>Use Undo to take back a turn or New game to restart.</span></div></div>';
+document.querySelector('.right-col')?.prepend(guide);
+
+const themeStyle = document.createElement('style');
+themeStyle.textContent = `
+  body[data-theme="aurora"]{background:radial-gradient(circle at 8% 0%,#e6dfff 0,transparent 32%),radial-gradient(circle at 92% 8%,#cff8e8 0,transparent 30%),linear-gradient(135deg,#f8f4ff 0%,#eef8ff 52%,#fff5e8 100%);}
+  body[data-theme="sunset"]{background:radial-gradient(circle at 12% 8%,#ffd3a8 0,transparent 30%),radial-gradient(circle at 92% 0%,#ffc7dc 0,transparent 34%),linear-gradient(135deg,#fff3df 0%,#ffe9f1 52%,#f0e8ff 100%);}
+  body[data-theme="ocean"]{background:radial-gradient(circle at 12% 0%,#bfeeff 0,transparent 34%),radial-gradient(circle at 92% 18%,#c9f7eb 0,transparent 32%),linear-gradient(135deg,#e8f8ff 0%,#e8f5ff 52%,#e8fff7 100%);}
+  body[data-theme="berry"]{background:radial-gradient(circle at 10% 6%,#e8c8ff 0,transparent 34%),radial-gradient(circle at 92% 8%,#ffc6d8 0,transparent 32%),linear-gradient(135deg,#f8ecff 0%,#f0e9ff 52%,#fff0f4 100%);}
+  .theme-picker{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.theme-option{border:1px solid var(--line);border-radius:11px;padding:8px 4px;background:#fff;color:var(--ink);font-size:10px;font-weight:800}.theme-option i{display:block;height:28px;border-radius:7px;margin-bottom:6px}.theme-option.active{border-color:var(--purple);box-shadow:0 0 0 2px var(--purple-soft)}.swatch-aurora{background:linear-gradient(135deg,#d8c8ff,#bff4df)}.swatch-sunset{background:linear-gradient(135deg,#ffc88f,#f8b8d2)}.swatch-ocean{background:linear-gradient(135deg,#aee8ff,#b9f0dc)}.swatch-berry{background:linear-gradient(135deg,#dfb8ff,#ffb8cf)}
+`;
+document.head.appendChild(themeStyle);
+
+const picker = document.createElement('section');
+picker.className = 'card';
+picker.innerHTML = '<div class="card-title"><h2>Choose a background</h2><span>STYLE</span></div><div class="theme-picker"><button class="theme-option" data-theme="aurora"><i class="swatch-aurora"></i>Aurora</button><button class="theme-option" data-theme="sunset"><i class="swatch-sunset"></i>Sunset</button><button class="theme-option" data-theme="ocean"><i class="swatch-ocean"></i>Ocean</button><button class="theme-option" data-theme="berry"><i class="swatch-berry"></i>Berry</button></div>';
+document.querySelector('.right-col')?.prepend(picker);
+
+function applyTheme(theme){
+  document.body.dataset.theme=theme;
+  localStorage.setItem('humanish-theme',theme);
+  picker.querySelectorAll('.theme-option').forEach(button=>button.classList.toggle('active',button.dataset.theme===theme));
+}
+picker.querySelectorAll('.theme-option').forEach(button=>button.onclick=()=>applyTheme(button.dataset.theme));
+applyTheme(localStorage.getItem('humanish-theme')||'aurora');
