@@ -132,3 +132,4 @@ clubIcon?.addEventListener('click',()=>activateNav('Club',clubNav));
 
 document.querySelector('.sidebar')?.remove();
 document.querySelector('.app')?.style.setProperty('grid-template-columns','1fr','important');
+document.querySelector('.icon-btn')?.remove();

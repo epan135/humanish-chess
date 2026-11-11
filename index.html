@@ -32,6 +32,6 @@
     function renderBots(){const list=$('botList');list.innerHTML=bots.map((b,i)=>'<button class="bot-item '+(i===activeBot?'active':'')+'" data-i="'+i+'"><i class="bot-face face-'+b[4]+'">'+b[3]+'</i><span class="bot-copy"><strong>'+b[0]+'</strong><small>'+b[2]+'</small></span><span class="elo">'+b[1]+'</span></button>').join('');list.querySelectorAll('.bot-item').forEach(x=>x.onclick=()=>selectBot(+x.dataset.i))}function selectBot(i){activeBot=i;const b=bots[i];$('selectedName').textContent=b[0];$('selectedStyle').textContent=b[2];$('selectedFace').textContent=b[3];$('selectedFace').className='bot-face face-'+b[4];renderBots();startBoard();toast('Playing '+b[0])}function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900)}
     $('newBtn').onclick=()=>{startBoard();toast('New game started')};$('undoBtn').onclick=()=>{if(history.length>=2){const b=history.pop(),a=history.pop();board[a.from[0]][a.from[1]]=a.moved;board[a.to[0]][a.to[1]]=a.captured;board[b.from[0]][b.from[1]]=b.moved;board[b.to[0]][b.to[1]]=b.captured;renderBoard();renderMoves();toast('Last turn undone')}};$('randomBtn').onclick=()=>selectBot(Math.floor(Math.random()*bots.length));renderBots();startBoard();
   </script>
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
